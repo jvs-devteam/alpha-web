@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    baseFileServer: '',
     basicInfo: {
       bannerUri: require('../assets/tmp/1.png')
     },

@@ -34,12 +34,19 @@
 </template>
 
 <script>
+import {getFileServer} from "@/network/VideoApi";
+
 export default {
   methods: {
     logout() {
       //登出
       this.$store.state.loginStates.login = 0;
     }
+  },
+  mounted() {
+    getFileServer().then(res => {
+      this.$store.state.baseFileServer = res.data.data
+    })
   }
 }
 </script>
@@ -95,7 +102,7 @@ header {
   background-size: cover;
   width: 100%;
   height: 200px;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 #nav {

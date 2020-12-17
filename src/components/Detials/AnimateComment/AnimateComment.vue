@@ -11,7 +11,7 @@ export default {
         vid: {
             type: Array,
             default() {
-                return 0;
+                return [];
             }
         }
     },
@@ -20,7 +20,7 @@ export default {
             comment: {
                 count: 20 ,
                 commentList: [
-                    
+
                 ]
             }
         }

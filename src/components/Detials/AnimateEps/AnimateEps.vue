@@ -1,16 +1,17 @@
 <template>
 <div id="eps">
-  <h2 id="eps-title">选集({{ epsData.total }})</h2>
+  <h2 id="eps-title">选集({{ epsData.length }})</h2>
   <div id="ep-item-out-box">
     <ul id="ep-item-box">
-      <li class="ep-item" v-for="ep in epsData.eps" :key="ep.epsId">
-        <img class="ep-item-img" :src="ep.epsImg" alt="">
-        <div class="ep-item-r">
-          <div class="ep-item-r-count">第{{ ep.epsCount }}集</div>
-          <div class="ep-item-r-info limit-height">{{ ep.epsInfo }}</div>
-          <span class="ep-item-r-state">未观看</span>
-        </div>
-
+      <li class="ep-item" v-for="(ep, idx) in epsData" :key="ep.eid">
+        <a :href="`/video/${vid}?ep=${idx}`">
+          <img class="ep-item-img" :src="ep.img" alt="">
+          <div class="ep-item-r">
+            <div class="ep-item-r-count">第{{ idx + 1 }}集</div>
+            <div class="ep-item-r-info limit-height">{{ ep.name }}</div>
+            <span class="ep-item-r-state">未观看</span>
+          </div>
+        </a>
       </li>
       <li class="clear-fix"></li>
     </ul>
@@ -22,22 +23,28 @@
 export default {
 name: "AnimateEps",
   props: {
-    epsData: {
-      type: Object,
+    vid: {
+      type: Number,
       default() {
-        return {
-          aid: 0,
-          total: 0,
-          eps: [
+        return 0
+      }
+    },
+    epsData: {
+      type: Array,
+      default() {
+        return [
             {
-              epsId: 0,
-              epsCount: 0,
-              epsName: '标题',
-              epsInfo: '简介',
-              epsImg: null
-            }
-          ]
-        }
+            vid: 0,
+            total: 0,
+            eps: [
+              {
+                eid: 2,
+                name: '-',
+                link: "-"
+              }
+            ]
+          }
+        ]
       }
     }
   }
@@ -45,6 +52,11 @@ name: "AnimateEps",
 </script>
 
 <style scoped>
+a:link,
+a:visited {
+  color: #000000;
+}
+
 #eps {
   background-color: #fff;
   padding: 10px 0;
