@@ -4,6 +4,20 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
+// font-awesome
+
+import fontawesome from "@fortawesome/fontawesome"
+import FontAwesomeIcon  from "@fortawesome/vue-fontawesome/src/components/FontAwesomeIcon";
+import solid from "@fortawesome/fontawesome-free-solid"
+import regular from "@fortawesome/fontawesome-free-regular"
+import brands from "@fortawesome/fontawesome-free-brands"
+
+fontawesome.library.add(solid)
+fontawesome.library.add(regular)
+fontawesome.library.add(brands)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 Vue.config.productionTip = false
 
 new Vue({

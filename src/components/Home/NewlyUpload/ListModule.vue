@@ -2,9 +2,11 @@
   <div id="newly-main">
     <h2 id="newly-title">{{ title }}</h2>
     <ul id="newly-list">
-      <li class="newly-item" v-for="item in newlyList">
-        <a :href="'/details/' + item.aid">
-          <img class="newly-item-img" :src="item.img" alt="">
+      <li class="newly-item" v-for="item in list">
+        <a :href="'/details/' + item.vid">
+          <img class="newly-item-img"
+               :src="item.coverImg === undefined ? undefined : $store.state.baseFileServer + item.coverImg"
+               alt="">
           <div class="newly-item-title" :title="item.name">{{ item.name }}</div>
           <div class="newly-item-tag-box">
             <ul class="newly-item-tag-list">
