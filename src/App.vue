@@ -13,10 +13,10 @@
         </ul>
       </div>
 
-      <div id="login" v-if="!$store.state.loginStates.login"><a href="/">登陆</a></div>
+      <div id="login" v-if="$store.state.loginUser === null"><a href="/">登陆</a></div>
 
       <div id="user" v-else>
-        <img id="user-head" :src="$store.state.loginStates.userHead" alt="">
+        <img id="user-head" :src="require('./assets/tmp/3.webp')" alt="">
         <span id="logout" class="btn-sel" @click="logout">登出</span>
       </div>
 
