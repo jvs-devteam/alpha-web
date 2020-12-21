@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 
 const Detials = () => import('../views/Detials')
 
+const Video = () => import('../views/Video')
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -17,6 +19,12 @@ Vue.use(VueRouter)
       name: 'Details',
       props: { default: true, sidebar: false },
       component: Detials
+    },
+    {
+      path: '/video/:id',
+      name: 'Video',
+      props: { default: true, sidebar: false },
+      component: Video
     },
     {
       path: '/tag/:id',

@@ -1,19 +1,21 @@
 <template>
 <div>
   <div id="info">
-    <img id="info-img" :src="animateInfo.img" alt="">
+    <img id="info-img"
+         :src="animateInfo.coverImg === undefined ? undefined : $store.state.baseFileServer + animateInfo.coverImg"
+         alt="">
     <div id="info-r">
       <div id="info-r-1">
         <span id="title">{{ animateInfo.name }}</span>
         <ul id="tag">
-          <li v-for="tagItem in animateInfo.tag" id="tag-item">{{ tagItem.tagName }}</li>
+          <li v-for="tagItem in [{tid: 2, tagName: 'Tag'}, {tid: 1, tagName: 'Tag'}]" id="tag-item">{{ tagItem.tagName }}</li>
         </ul>
       </div>
-      <div id="info-r-2"><span id="info-r-time">{{ animateInfo.time.substring(0,4)}} 年 {{ animateInfo.time.substring(4,6) }} 月 {{ animateInfo.time.substring(6,8) }} 日播出</span><span id="info-r-state">{{ animateInfo.state }},全 {{ animateInfo.total }} 话</span></div>
+      <div id="info-r-2"><span id="info-r-time">0000 年 00 月 00 日播出</span><span id="info-r-state">？,全 0 话</span></div>
       <div id="info-r-3">简介:{{ animateInfo.info}}</div>
     </div>
     <div class="btn-box" v-if="$store.state.loginStates.login">
-      <div id="play-btn" class="btn">播放</div>
+      <a :href="`/video/${animateInfo.vid}`"><div id="play-btn" class="btn">播放</div></a>
       <div id="fav-btn" class="btn" :style="{backgroundColor: animateInfo.isFav?'#c6c6c6':'pink'}" @click="changeFavState">{{ animateInfo.isFav?'已追番':'追番' }}</div>
     </div>
     <div class="btn-box" v-else>
@@ -32,16 +34,19 @@ name: "BasicInfo",
       type: Object,
       default() {
         return {
-          aid: 0,
-          name: "nulll",
-          img: null,
-          tag: [],
-          info: 'null',
-          watchProcess: 0,
-          time: '00000000',
-          state: 0,
-          total: 0,
-          isFav: false
+          vid: 0,
+          name: "测试名称修改2",
+          info: "-",
+          gid: 1,
+          type: 1,
+          epList: [
+            {
+              eid: 2,
+              name: "视频2P1",
+              link: "/t1.mp4",
+              vid: null
+            }
+          ]
         }
       }
     }
