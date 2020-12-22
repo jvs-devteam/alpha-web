@@ -1,31 +1,36 @@
 <template>
   <div id="app" class="m-no-select">
     <header :style="'background-image: url(' + $store.state.basicInfo.bannerUri + ');'">
-      <div>
-        <ul id="nav">
-          <li><a href="/">首页</a></li>
-          <li><a href="/">番剧索引</a></li>
-          <li><a href="/">连载动画</a></li>
-          <li><a href="/">完结动画</a></li>
-          <li><a href="/">资讯</a></li>
-          <li><a href="/">新番时间表</a></li>
-          <li><a href="/">Colter的图片站</a></li>
-        </ul>
-      </div>
+      <nav>
+        <div>
+          <ul id="nav">
+            <li><a href="/">首页</a></li>
+            <li><a href="/">番剧索引</a></li>
+            <li><a href="/">连载动画</a></li>
+            <li><a href="/">完结动画</a></li>
+            <li><a href="/">资讯</a></li>
+            <li><a href="/">新番时间表</a></li>
+            <li><a href="/">Colter的图片站</a></li>
+          </ul>
+        </div>
 
-      <div id="login" v-if="$store.state.loginUser === null"><a href="/login">登陆</a></div>
+        <div id="search">
+          <label>
+            <input type="text" id="search-text" placeholder="请输入关键词">
+          </label>
+          <input type="button" id="search-btn" value="搜索">
+        </div>
 
-      <div id="user" v-else>
-        <img id="user-head" :src="require('./assets/tmp/3.webp')" alt="">
-        <span id="logout" class="btn-sel" @click="logout">登出</span>
-      </div>
+        <div class="flex-1"></div>
 
-      <div id="search">
-        <label>
-          <input type="text" id="search-text" placeholder="请输入关键词">
-        </label>
-        <input type="button" id="search-btn" value="搜索">
-      </div>
+        <div id="login" v-if="$store.state.loginUser === null"><a href="/login">登陆</a></div>
+
+        <div id="user" v-else>
+          <img id="user-head" :src="require('./assets/tmp/3.webp')" alt="">
+          <span><router-link to="/creator">创作中心</router-link></span>
+          <span id="logout" class="btn-sel" @click="logout">登出</span>
+        </div>
+      </nav>
 
     </header>
     <router-view></router-view>
@@ -36,20 +41,29 @@
 <script>
 import {getBackend, getFileServer} from "@/network/VideoApi";
 export default {
-  methods: {
-    logout() {
-      //登出
-      getBackend({url: 'logout'}).then(res => {
-        if (res.data.code === 0) {
-          this.$store.state.loginUser = null;
-        }
-      })
-    }
-  },
   mounted() {
+    // console.log('mounted')
     getFileServer().then(res => {
       this.$store.state.baseFileServer = res.data.data
     })
+    getBackend({url: 'auth/getUserInfo'}).then(res => {
+      console.log(res)
+      if (res.data.code === 0) {
+        this.$store.state.loginUser = res.data.data
+      }
+    })
+  },
+  methods: {
+    logout() {
+      //登出
+      getBackend({url: 'auth/logout'}).then(res => {
+        if (res.data.code === 0) {
+          this.$store.state.loginUser = null;
+        }else {
+          console.log('err' + res.data.message)
+        }
+      })
+    }
   }
 }
 </script>
@@ -68,6 +82,10 @@ body {
 .box {
   margin: 0 auto;
   width: 1200px;
+}
+
+.flex-1 {
+  flex: 1;
 }
 
 .m-no-select {
@@ -108,6 +126,12 @@ header {
   padding-bottom: 10px;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+
 #nav {
   padding: 0;
   margin: 0;
@@ -133,12 +157,11 @@ header {
 }
 
 #search {
-  float: left;
   padding: 10px;
+  display: flex;
 }
 
 #search input {
-  float: left;
   height: 36px;
   padding: 0 10px;
   border: none;
@@ -150,7 +173,6 @@ header {
 
 #search-btn {
   display: block;
-  float: left;
   color: #000000;
   background-color: #e3e3e3;
   padding: 5px 10px;
@@ -165,22 +187,29 @@ header {
 }
 
 #login {
-  float: right;
   padding: 15px 25px;
 }
 
 #user {
   padding: 10px;
-  float: right;
+  display: flex;
+  align-items: center;
 }
+
+#user span {
+  margin-right: 15px;
+  line-height: 35px;
+  font-size: 14px;
+  color: #ffffff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
 #user-head {
-  float: left;
   margin-right: 10px;
   width: 35px;
   border-radius: 35px;
 }
 #logout {
-  float: left;
   margin-right: 15px;
   line-height: 35px;
   font-size: 14px;

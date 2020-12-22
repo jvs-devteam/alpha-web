@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 const backEnd = new axios.create({
-    baseURL: 'http://localhost/api',
-    timeout: 5000
+    baseURL: 'http://localhost:23333',
+    timeout: 5000,
+    withCredentials: true
 })
 
 export function getFileServer() {

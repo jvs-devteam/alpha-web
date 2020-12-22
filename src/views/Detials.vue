@@ -55,7 +55,11 @@ name: "Detials",
   },
   mounted() {
     getVideoByVid(this.nowPos).then(res => {
-      this.animateInfo=res.data.data
+      if (res.data.data === undefined) {
+        this.$router.push('/404');
+      }else {
+        this.animateInfo=res.data.data;
+      }
     })
   },
   methods: {

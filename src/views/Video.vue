@@ -7,6 +7,7 @@
              @loadedmetadata="doAutoPlay()"
              @ended="playNext()"
              :src="$store.state.baseFileServer + videoInfo.epList[ep].link"></video>
+      <anime-info :video-info="videoInfo"></anime-info>
     </div>
     <div class="right-box">
       <ep-list v-show="videoInfo.epList.length>1"
@@ -15,6 +16,7 @@
                :nep="ep"
                :auto-play="autoPlay"
                :ep-list="videoInfo.epList"></ep-list>
+      <recommend></recommend>
     </div>
   </div>
 </template>
@@ -22,6 +24,8 @@
 <script>
 import {getVideoByVid} from "@/network/VideoApi";
 import EpList from "@/components/Video/EpList";
+import Recommend from "@/components/Video/Recommend";
+import AnimeInfo from "@/components/Video/AnimeInfo";
 
 export default {
   name: "Video",
@@ -34,6 +38,8 @@ export default {
     }
   },
   components: {
+    AnimeInfo,
+    Recommend,
     EpList
   },
   mounted: function () {

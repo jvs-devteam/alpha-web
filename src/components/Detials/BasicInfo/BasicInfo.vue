@@ -15,7 +15,8 @@
       <div id="info-r-3">简介:{{ animateInfo.info}}</div>
     </div>
     <div class="btn-box" v-if="$store.state.loginUser !== null">
-      <a :href="`/video/${animateInfo.vid}`"><div id="play-btn" class="btn">播放</div></a>
+      <a  v-if="animateInfo.epList.length !== 0 && animateInfo.vid !== 0"
+          :href="`/video/${animateInfo.vid}`"><div id="play-btn" class="btn">播放</div></a>
       <div id="fav-btn" class="btn" :style="{backgroundColor: animateInfo.isFav?'#c6c6c6':'pink'}" @click="changeFavState">{{ animateInfo.isFav?'已追番':'追番' }}</div>
     </div>
     <div class="btn-box" v-else>
