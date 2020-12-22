@@ -13,7 +13,7 @@
         </ul>
       </div>
 
-      <div id="login" v-if="$store.state.loginUser === null"><a href="/">登陆</a></div>
+      <div id="login" v-if="$store.state.loginUser === null"><a href="/login">登陆</a></div>
 
       <div id="user" v-else>
         <img id="user-head" :src="require('./assets/tmp/3.webp')" alt="">
@@ -34,12 +34,16 @@
 </template>
 
 <script>
-import {getFileServer} from "@/network/VideoApi";
+import {getBackend, getFileServer} from "@/network/VideoApi";
 export default {
   methods: {
     logout() {
       //登出
-      this.$store.state.loginStates.login = 0;
+      getBackend({url: 'logout'}).then(res => {
+        if (res.data.code === 0) {
+          this.$store.state.loginUser = null;
+        }
+      })
     }
   },
   mounted() {

@@ -1,5 +1,7 @@
 <template>
-
+<div>
+  <span>xxx</span>
+</div>
 </template>
 
 <script>

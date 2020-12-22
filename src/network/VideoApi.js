@@ -17,6 +17,6 @@ export function getVideoByVid(vid) {
     return backEnd(`/video/get/${vid}`)
 }
 
-export function getBackend() {
-    return backEnd;
+export function getBackend(options) {
+    return backEnd(options);
 }

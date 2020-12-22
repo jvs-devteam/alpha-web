@@ -14,7 +14,7 @@
       <div id="info-r-2"><span id="info-r-time">0000 年 00 月 00 日播出</span><span id="info-r-state">？,全 0 话</span></div>
       <div id="info-r-3">简介:{{ animateInfo.info}}</div>
     </div>
-    <div class="btn-box" v-if="$store.state.loginStates.login">
+    <div class="btn-box" v-if="$store.state.loginUser !== null">
       <a :href="`/video/${animateInfo.vid}`"><div id="play-btn" class="btn">播放</div></a>
       <div id="fav-btn" class="btn" :style="{backgroundColor: animateInfo.isFav?'#c6c6c6':'pink'}" @click="changeFavState">{{ animateInfo.isFav?'已追番':'追番' }}</div>
     </div>
