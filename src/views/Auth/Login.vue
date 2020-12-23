@@ -1,35 +1,46 @@
 <template>
   <div id="login-box">
-    <h1 class="login-title">登录</h1>
-    <div class="login-box">
-      <div class="login-l"></div>
-      <div class="login-r">
-        <ul class="login-form">
-          <li><input type="text" name="username" id="username" placeholder="请输入用户名" v-model="form.username"></li>
-          <li><input type="password" name="password" id="password" placeholder="请输入密码" v-model="form.password"></li>
-          <li><button @click="login">登陆</button></li>
-        </ul>
+    <index-header></index-header>
+    <main>
+      <h1 class="login-title">登录</h1>
+      <div class="login-box">
+        <div class="login-l"></div>
+        <div @keydown.enter="login" class="login-r">
+          <ul class="login-form">
+            <li><input type="text" name="username" id="username" placeholder="请输入用户名" v-model="form.username"></li>
+            <li><input type="password" name="password" id="password" placeholder="请输入密码" v-model="form.password"></li>
+            <li><button @click="login">登陆</button></li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>qing
 
 <script>
 import {getBackend} from "@/network/VideoApi";
+import IndexHeader from "@/components/Common/IndexHeader";
 
 export default {
 name: "Login",
+  components: {IndexHeader},
+  mounted() {
+    let timer = setInterval(() => {
+      if (this.$store.state.loginUser !== 0) {
+        clearInterval(timer)
+        if (this.$store.state.loginUser !== null) {
+          console.log('You Have No Access To View This Page')
+          this.$router.push('/');
+        }
+      }
+    }, 50)
+  },
   data: () => ({
     form: {
       username: '',
       password: ''
     }
   }),
-  mounted() {
-    if (this.$store.state.loginUser !== null) {
-      this.$router.push('/');
-    }
-  },
   methods: {
     login() {
       let form = new FormData();
@@ -53,7 +64,7 @@ name: "Login",
 </script>
 
 <style scoped>
-#login-box {
+main {
   width: 1200px;
   margin: 10px auto;
 }

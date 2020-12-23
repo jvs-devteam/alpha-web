@@ -9,7 +9,7 @@ export default new Vuex.Store({
     basicInfo: {
       bannerUri: require('../assets/tmp/1.png')
     },
-    loginUser: null
+    loginUser: 0
   },
   mutations: {
   },

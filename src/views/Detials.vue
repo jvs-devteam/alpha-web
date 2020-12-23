@@ -1,5 +1,6 @@
 <template>
 <div id="details-box">
+  <index-header></index-header>
   <div id="info-box-outer" class="box">
     <div id="info-box">
       <basic-info :animate-info="animateInfo"></basic-info>
@@ -30,6 +31,7 @@ import AnimateEps from "@/components/Detials/AnimateEps/AnimateEps";
 import AnimateCvs from "@/components/Detials/AnimateCvs/AnimateCvs";
 import AnimateComment from "@/components/Detials/AnimateComment/AnimateComment"
 import {getVideoByVid} from "@/network/VideoApi";
+import IndexHeader from "@/components/Common/IndexHeader";
 
 export default {
 name: "Detials",
@@ -66,6 +68,7 @@ name: "Detials",
 
   },
   components: {
+    IndexHeader,
   BasicInfo,
     AnimateEps,
     AnimateCvs,

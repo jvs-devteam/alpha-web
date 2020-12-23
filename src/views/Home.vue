@@ -1,5 +1,6 @@
 <template>
   <div id="home-page">
+    <index-header></index-header>
     <div id="banner-switcher-box" class="box">
       <banner-switcher></banner-switcher>
     </div>
@@ -28,10 +29,12 @@ import BangumiShin from "@/components/Home/BangumiShin/BangumiShin";
 import ListModule from "@/components/Home/NewlyUpload/ListModule";
 import MyFav from "@/components/Home/MyFav/MyFav";
 import {getAllVideo, getFileServer} from "@/network/VideoApi";
+import IndexHeader from "@/components/Common/IndexHeader";
 
 export default {
   name: 'Home',
   components: {
+    IndexHeader,
     BannerSwitcher,
     BangumiShin,
     ListModule,

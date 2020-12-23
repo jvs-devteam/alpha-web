@@ -1,23 +1,26 @@
 <template>
   <div id="video-box">
-    <div class="left-box">
-      <video ref="video"
-             id="video"
-             controls
-             @loadedmetadata="doAutoPlay()"
-             @ended="playNext()"
-             :src="$store.state.baseFileServer + videoInfo.epList[ep].link"></video>
-      <anime-info :video-info="videoInfo"></anime-info>
-    </div>
-    <div class="right-box">
-      <ep-list v-show="videoInfo.epList.length>1"
-               @changeEp="changeEp"
-               @changeAutoPlay="changAutoPlayState"
-               :nep="ep"
-               :auto-play="autoPlay"
-               :ep-list="videoInfo.epList"></ep-list>
-      <recommend></recommend>
-    </div>
+    <index-header></index-header>
+    <main>
+      <div class="left-box">
+        <video ref="video"
+               id="video"
+               controls
+               @loadedmetadata="doAutoPlay()"
+               @ended="playNext()"
+               :src="$store.state.baseFileServer + videoInfo.epList[ep].link"></video>
+        <anime-info :video-info="videoInfo"></anime-info>
+      </div>
+      <div class="right-box">
+        <ep-list v-show="videoInfo.epList.length>1"
+                 @changeEp="changeEp"
+                 @changeAutoPlay="changAutoPlayState"
+                 :nep="ep"
+                 :auto-play="autoPlay"
+                 :ep-list="videoInfo.epList"></ep-list>
+        <recommend></recommend>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -26,6 +29,7 @@ import {getVideoByVid} from "@/network/VideoApi";
 import EpList from "@/components/Video/EpList";
 import Recommend from "@/components/Video/Recommend";
 import AnimeInfo from "@/components/Video/AnimeInfo";
+import IndexHeader from "@/components/Common/IndexHeader";
 
 export default {
   name: "Video",
@@ -38,6 +42,7 @@ export default {
     }
   },
   components: {
+    IndexHeader,
     AnimeInfo,
     Recommend,
     EpList
@@ -77,11 +82,11 @@ export default {
 </script>
 
 <style scoped>
-#video-box {
-  width: 1200px;
-  margin: 0 auto;
+main {
   align-items: flex-start;
   display: flex;
+  width: 1200px;
+  margin: 0 auto;
 }
 
 .left-box {
