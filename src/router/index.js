@@ -46,6 +46,11 @@ Vue.use(VueRouter)
       name: 'MyFans',
       component: () => import('../views/Creator/MyFans')
     },
+    {
+      path: '/creator/my-upload/edit/:id',
+      name: 'Edit',
+      component: () => import('../views/Creator/EditVideo/Edit')
+    },
       // 认证系统
     {
       path: '/login',
