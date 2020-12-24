@@ -1,6 +1,6 @@
 <template>
   <header>
-    <img class="creator-logo" :src="require('../../assets/creator-logo.png')" alt="">
+    <img class="creator-logo" :src="require('../../assets/new-creator.png')" alt="">
     <nav>
       <ul>
         <li>

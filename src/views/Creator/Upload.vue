@@ -26,7 +26,10 @@
             <input type="file" name="file" id="cover-file" @change="changeCoverFile">
           </li>
         </ul>
-        <div class="add-btn" @click="addNewEp">+</div>
+        <div class="add-btn" @click="addNewEp">
+          <font-awesome-icon :icon="['fa', 'plus']"></font-awesome-icon>
+          <span style="margin-left: 10px">添加分P ({{epList.length}})</span>
+        </div>
         <ul class="ep-list-box">
           <li v-for="(ep, idx) in epList">
             <div class="form-item">
@@ -51,7 +54,7 @@
 import CreatorFrame from "@/components/Creator/CreatorFrame";
 import {getBackend} from "@/network/VideoApi";
 export default {
-  name: "Uploader",
+  name: "Upload",
   components: {CreatorFrame},
   data: () => ({
     videoForm: {
@@ -70,6 +73,8 @@ export default {
     epListCount: 0,
     epUploadDone: 0
   }),
+  mounted() {
+  },
   methods: {
     changeEpFile($event) {
       this.epList[parseInt($event.target.dataset.idx)].file = $event.target.files[0]
@@ -185,6 +190,8 @@ textarea {
   margin: 10px;
   padding: 5px 10px ;
   border-radius: 5px;
+  background-color: #fb7299;
+  color: #ffffff;
   border: #fb7299 solid 1px;
 }
 

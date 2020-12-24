@@ -56,17 +56,19 @@ export default {
   },
   methods: {
     deleteVideo(vid) {
-      getBackend({url: `/video/delete/${vid}`, method: 'DELETE'}).then(res => {
-        if (res.data.code === 0) {
-          console.log('删除成功')
-          this.myVideoList.forEach((video, idx) => {
-            if (video.vid === vid) {
-              this.myVideoList.splice(idx, 1);
-              return
-            }
-          })
-        }
-      })
+      if (confirm('你确定要删除这个视频么?这将会无法恢复!')) {
+        getBackend({url: `/video/delete/${vid}`, method: 'DELETE'}).then(res => {
+          if (res.data.code === 0) {
+            console.log('删除成功')
+            this.myVideoList.forEach((video, idx) => {
+              if (video.vid === vid) {
+                this.myVideoList.splice(idx, 1);
+                return
+              }
+            })
+          }
+        })
+      }
     }
   }
 }
