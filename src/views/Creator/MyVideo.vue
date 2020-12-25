@@ -18,9 +18,9 @@
             <td class="name-col">{{video.name}}</td>
             <td class="info-col">{{video.info}}</td>
             <td class="type-col">
-              <span v-if="video.type === 1">视频</span>
-              <span v-if="video.type === 2">番剧</span>
-              <span v-if="video.type === 3">电影</span>
+              <span v-if="video.type === 0">视频</span>
+              <span v-if="video.type === 1">番剧</span>
+              <span v-if="video.type === 2">电影</span>
             </td>
             <td class="length-col">{{video.epList.length}}</td>
             <td class="edit-col">

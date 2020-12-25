@@ -2,7 +2,7 @@
   <div id="newly-main">
     <h2 id="newly-title">{{ title }}</h2>
     <ul id="newly-list">
-      <li class="newly-item" v-for="item in list">
+      <li v-if="item.epList.length !== 0" class="newly-item" v-for="item in list">
         <a :href="'/details/' + item.vid">
           <img class="newly-item-img"
                :src="item.coverImg === undefined ? undefined : $store.state.baseFileServer + item.coverImg"

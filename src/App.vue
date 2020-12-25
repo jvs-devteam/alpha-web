@@ -81,4 +81,46 @@ ul {
   padding: 0;
   list-style: none;
 }
+
+select,
+option {
+  font-size: 14px;
+  padding: 5px;
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+}
+
+input[type=text],
+input[type=password] {
+  width: 400px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+}
+
+input[type=file] {
+  border: none;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #fb7299;
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+textarea {
+  width: 800px;
+  height: 200px;
+  font-size: 14px;
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+  padding: 5px;
+}
 </style>

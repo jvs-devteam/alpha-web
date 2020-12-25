@@ -115,7 +115,8 @@ export default {
               console.log(ep.idx + '上传完成!');
               that.epUploadDone++;
               if (that.epUploadDone === that.epListCount) {
-                that.$router.push('/')
+                alert('上传完成！');
+                location.reload();
               }
             })
           })

@@ -2,7 +2,9 @@
   <div class="edit-video">
     <creator-frame>
       <div class="edit-box">
-        <div class="edit-title">编辑视频</div>
+        <div class="edit-title">
+          <span>编辑视频</span>
+        </div>
         <div class="edit-form">
           <div class="video-form">
             <div class="form-item">
@@ -41,20 +43,24 @@
               </span>
             </div>
             <div class="form-item">
-              <div class="btn">保存修改</div>
+              <div class="btn" @click="saveVideoChange">保存修改</div>
             </div>
           </div>
-          <div class="edit-title">分P管理</div>
+          <div class="edit-title">
+            <span>分P管理</span>
+            <input type="checkbox" id="show-preview" style="width: 20px;" v-model="showPreview">
+            <span style="font-size: 16px"><label for="show-preview">显示预览</label></span>
+          </div>
           <div class="ep-form">
             <div class="add-ep btn">
               <font-awesome-icon :icon="['fa', 'plus']"></font-awesome-icon>
-              <span>添加分P</span>
+              <span @click="showAddArea = true">添加分P</span>
             </div>
             <div v-if="epList.length === 0" class="ep-null">这里空空的哦</div>
             <div class="ep-item" v-for="(ep, idx) in epList">
               <div class="form-item">
                 <span class="form-title">EID</span>
-                <span class="form-value"><input type="text" name="ep-name" v-model="ep.eid" disabled></span>
+                <span class="form-value"><input type="text" name="ep-name" :value="ep.eid" disabled></span>
               </div>
               <div class="form-item">
                 <span class="form-title">分P名称</span>
@@ -63,28 +69,35 @@
               <div class="form-item">
                 <span class="form-title">视频</span>
                 <span class="form-value video-box">
-                  <video class="pre-video" controls :src="$store.state.baseFileServer + ep.link"></video>
-                  <input type="file" @change="">
+                  <video v-if="showPreview" class="pre-video" controls :src="$store.state.baseFileServer + ep.link"></video>
+                  <input type="file" @change="changeSource(ep.eid, $event)">
                 </span>
               </div>
               <div class="delete-video" @click="deleteVideo(ep.name, ep.eid, idx)">
                 <font-awesome-icon :icon="['fa', 'times']"></font-awesome-icon>
               </div>
             </div>
-            <div class="add-ep btn" v-if="epList.length !== 0">提交修改</div>
+            <div class="add-ep btn" v-if="epList.length !== 0" @click="saveEpSetting">提交修改</div>
           </div>
         </div>
       </div>
     </creator-frame>
+    <div v-if="showAddArea" class="upload-ep-box">
+      <upload-ep :vid="vid"
+                 @upload-done="uploadDone"
+                  @close="showAddArea = false"></upload-ep>
+    </div>
+    <div v-if="showAddArea" class="upload-ep-mask"></div>
   </div>
 </template>
 
 <script>
 import CreatorFrame from "@/components/Creator/CreatorFrame";
 import {getBackend} from "@/network/VideoApi";
+import UploadEp from "@/components/Creator/Edit/UploadEp";
 export default {
 name: "Edit",
-  components: {CreatorFrame},
+  components: {UploadEp, CreatorFrame},
   data() {
     return {
       vid: this.$route.params.id,
@@ -96,25 +109,35 @@ name: "Edit",
         coverImg: ''
       },
       epList: [],
-      epFile: [],
-      sourceData: {}
+      sourceData: {},
+      epCount: 0,
+      epSet: 0,
+      showPreview: true,
+      showAddArea: false
     }
   },
   mounted() {
-    getBackend({url: `/video/get/${this.$route.params.id}`}).then(res => {
-      if (res.data.code === 0) {
-        let rd = res.data.data;
-        this.videoForm.vid = rd.vid;
-        this.videoForm.name = rd.name;
-        this.videoForm.info = rd.info;
-        this.videoForm.type = rd.type;
-        this.videoForm.coverImg = rd.coverImg;
-        this.epList = rd.epList;
-        this.sourceData = rd;
-      }
-    })
+    this.getData();
   },
   methods: {
+    // 获取数据
+    getData() {
+      getBackend({url: `/video/get/${this.$route.params.id}`}).then(res => {
+        if (res.data.code === 0) {
+          let rd = res.data.data;
+          this.videoForm.vid = rd.vid;
+          this.videoForm.name = rd.name;
+          this.videoForm.info = rd.info;
+          this.videoForm.type = rd.type;
+          this.videoForm.coverImg = rd.coverImg;
+          this.epList = rd.epList;
+          this.sourceData = rd;
+          if (res.data.data.epList.length > 10) {
+            this.showPreview = false;
+          }
+        }
+      })
+    },
     // 删除视频，即刻操作！
     deleteVideo(name, eid, idx) {
       if (confirm(`你确定要删除分P[${name}]吗?\n这将会无法恢复！`)) {
@@ -127,6 +150,59 @@ name: "Edit",
       }
     },
     // 修改视频
+    saveVideoChange() {
+      let form = new FormData();
+      form.append('name', this.videoForm.name);
+      form.append('info', this.videoForm.info);
+      form.append('type', this.videoForm.type);
+      getBackend({url: `/video/update/${this.vid}`, method: 'PUT', data: form}).then(res => {
+        if (res.data.code === 0) {
+          alert('操作成功！')
+        }else {
+          alert('操作失败！')
+          this.getData();
+        }
+      })
+    },
+    // 修改分P
+    saveEpSetting() {
+      this.epCount = this.epList.length;
+      this.epList.forEach(ep => {
+        let form = new FormData()
+        form.append('name', ep.name);
+        getBackend({url: `/ep/update/${ep.eid}`, method: 'PUT', data: form}).then(res => {
+          if (res.data.code === 0) {
+            this.epSet++;
+          }else {
+            alert(`分P[${ep.name}]操作失败!`);
+            this.epCount--;
+          }
+          if (this.epSet === this.epCount) {
+            alert('操作完成!')
+            location.reload();
+          }
+        })
+      })
+    },
+    // 换源，即刻操作
+    changeSource(eid, $event) {
+      if (confirm('您确定要上传新的视频么\n这将会覆盖以前的视频\n此操作无法恢复')) {
+        let file = $event.target.files[0]
+        let form = new FormData()
+        form.append('file', file);
+        getBackend({url: `/ep/updateSource/${eid}`, method: 'PUT', data: form}).then(res => {
+          if (res.data.code === 0) {
+            alert('操作成功');
+            this.getData();
+          }
+        })
+      }
+    },
+    // 新视频上传完成
+    uploadDone() {
+      this.showAddArea = false;
+      this.getData();
+    }
   }
 }
 </script>
@@ -209,6 +285,38 @@ name: "Edit",
   right: 20px;
   top: 20px;
   font-size: 24px;
+}
+
+/*上传*/
+
+.upload-ep-box {
+  position: fixed;
+  z-index: 101;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: on 0.5s;
+}
+
+.upload-ep-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  animation: on 0.5s;
+}
+
+@keyframes on {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /*表单样式*/
