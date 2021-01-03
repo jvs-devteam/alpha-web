@@ -51,6 +51,12 @@ Vue.use(VueRouter)
       name: 'Edit',
       component: () => import('../views/Creator/EditVideo/Edit')
     },
+      // 系统管理员后台
+    {
+      path: '/sys_admin',
+      name: 'SysAdmin',
+      component: () => import('../views/Sys_Admin/SysAdmin')
+    },
       // 认证系统
     {
       path: '/login',
